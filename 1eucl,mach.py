@@ -58,4 +58,41 @@ df["Cosine_Similarity"] = [
     np.dot(ref, row) / (np.linalg.norm(ref) * np.linalg.norm(row))
     for row in scaled
 ]
+
 print(df.head())
+
+
+import pandas as pd
+import math
+from sklearn.preprocessing import MinMaxScaler
+
+# Load dataset
+df = pd.read_csv("Salary.csv")
+
+# Apply MinMaxScaler
+scaler = MinMaxScaler()
+df[['YearsExperience','Salary']] = scaler.fit_transform(df[['YearsExperience','Salary']])
+
+# Access two rows using df.loc
+x1 = df.loc[0,'YearsExperience']
+y1 = df.loc[0,'Salary']
+
+x2 = df.loc[1,'YearsExperience']
+y2 = df.loc[1,'Salary']
+
+# 1 Euclidean Distance
+euclidean = math.sqrt((x1-x2)**2 + (y1-y2)**2)
+print("Euclidean Distance:", euclidean)
+
+# 2 Manhattan Distance
+manhattan = abs(x1-x2) + abs(y1-y2)
+print("Manhattan Distance:", manhattan)
+
+# 3 Cosine Similarity
+cosine = (x1*x2 + y1*y2) / (math.sqrt(x1**2 + y1**2) * math.sqrt(x2**2 + y2**2))
+print("Cosine Similarity:", cosine)
+
+# 4 Minkowski Distance (p=3)
+p = 3
+minkowski = ((abs(x1-x2)**p + abs(y1-y2)**p))**(1/p)
+print("Minkowski Distance:", minkowski)
